@@ -4,7 +4,8 @@ loginController,
 forgotPasswordController,
 sellerRegisterController, 
 sellerLoginController,
-sellerForgotPasswordController} from '../controller/authController.js'
+sellerForgotPasswordController,
+getOrdersController} from '../controller/authController.js'
 import {  requireSignIn } from '../middleware/authMiddleWare.js';
 // router object
 const router = express.Router();
@@ -47,4 +48,6 @@ router.post("/add-product",)
 router.get("/user-auth", requireSignIn, (req, res) => {
     res.status(200).send({ ok : req.role});
   });
+  
+router.get("/orders", getOrdersController);
   

@@ -46,22 +46,33 @@ const Home = () => {
     fetchImages();
   }, [allProduct]);
 
+
   const handleAddToCart = (product) => {
-    // Check if the product already exists in the cart
-    const isProductInCart = cart.some((item) => item._id === product._id);
+    const existingCartItemIndex = cart.findIndex(item => item._id === product._id);
   
-    if (isProductInCart) {
-      // Product already exists in the cart, display a message or handle accordingly
-      toast.warning('Product already in Cart');
-      return;
+    if (existingCartItemIndex !== -1) {
+      // Product is already in the cart, increment quantity
+      const updatedCart = [...cart];
+      updatedCart[existingCartItemIndex].quantity++;
+      setCart(updatedCart);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    } else {
+      // Product is not in the cart, add it
+      const newCartItem = {
+        ...product,
+        quantity: 1,
+      };
+      const updatedCart = [...cart, newCartItem];
+      setCart(updatedCart);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
     }
   
-    // Product doesn't exist in the cart, add it to the cart state
-    const updatedCart = [...cart, product];
-    setCart(updatedCart);
     toast.success('Product added to Cart');
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
+  
+  
+
+
   
   return (
     <section>

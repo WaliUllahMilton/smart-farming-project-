@@ -223,40 +223,37 @@ export const braintreeTokenController = async(req,res)=>{
     }
 }
 //payment
-export const braintreePaymentController = async (req,res)=>{
-    try {
-        if (!req.user) {
-            return res.status(401).json({ error: 'User not authenticated.' });
-            // return res.status(401).json({ error: req.body });
+// const Order = mongoose.model("orders");
 
-        }
-        const {cart,nonce}= req.body;
-        let total =0;
-        cart.map((i)=>{
-            total+= i.price
+export const braintreePaymentController = async (req, res) => {
+    try {
+        const { amount,nonce,products } = req.body;
+        // const {nonce} = req.body;
+        // Use Braintree gateway to process the transaction
+                
+        gateway.transaction.sale({
+            amount: amount,
+            paymentMethodNonce: nonce,
+            // deviceData: deviceDataFromTheClient,
+            options: {
+            submitForSettlement: true
+            }
+        })
+        res.status(200).send(req.body)
+
+      
+            // Braintree payment successful, save order details to the database
+        const order = new orderModel({
+            products: [products],
+            buyer: req.body.user,
+            status: "Processing",
         });
-        let newTransaction = gateway.transaction.sale({
-            amount:total,
-            paymentMethodNonce:nonce,
-            options:{
-                submitForSettlement:true
-            }
-        },
-        function(error,result){
-            if(result){
-                const order = new orderModel({
-                    products:cart,
-                    payment:result,
-                    buyer:req.user._id
-                }).save();
-                res.json({ok:true});
-            }
-            else{
-                res.status(500).send(error)
-            }
-        }
-        )
+
+        await order.save();
+
+          
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        res.status(500).json({  error });
     }
-}
+};

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { useAuth } from '../../../context/Auth';
 import axios from 'axios';
 import { FaGreaterThan } from 'react-icons/fa6';
@@ -67,7 +67,7 @@ const Index = () => {
                         onChange={(e)=>setNewPassword(e.target.value)}/>
                     </div>
                </div>
-                <button className='py-4 px-20 text-[#262626] font-DM text-base font-bold border border-[#2B2B2B] hover:text-[#fff] hover:bg-[#2b2b2b] transition-all delay-100'>Log in</button>
+                <button className='py-4 px-20 text-[#262626] font-DM text-base font-bold border border-[#2B2B2B] hover:text-[#fff] hover:bg-[#2b2b2b] transition-all delay-100'>Reset Password</button>
             </form>
             
               {/* <p onClick={handleForgotPassword} className='mt-3 inline-block cursor-pointer text-[#262626] font-DM text-base font-bold leading-6'>Forgot Password ?</p> */}
@@ -76,7 +76,7 @@ const Index = () => {
         <hr  className='mt-[70px] mb-[58px]'/>
     <h3 className='text-[#262626] font-DM text-[39px] font-bold'>New Customer</h3>
     <p className='w-[644px] text-[#767676] text-base leading-[30px]'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the.</p>
-    <button className='mt-[67px] py-4 px-20 text-[#fff] font-DM text-base font-bold border bg-[#2B2B2B] border-[#2B2B2B]'>Continue</button>
+    <Link to='/register' className='mt-[67px] py-4 px-20 text-[#fff] font-DM text-base font-bold border bg-[#2B2B2B] border-[#2B2B2B]'>Continue</Link>
     </div>
 </section>
   )

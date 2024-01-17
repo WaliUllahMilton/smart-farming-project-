@@ -2,7 +2,7 @@
 // import React from 'react'
 import { useState } from "react";
 import { FaGreaterThan } from "react-icons/fa6";
-import { useNavigate} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import { useAuth } from "../../../context/Auth";
 // import { token } from "morgan";
@@ -78,7 +78,7 @@ const Index = () => {
             <hr  className='mt-[70px] mb-[58px]'/>
         <h3 className='text-[#262626] font-DM text-[39px] font-bold'>New Customer</h3>
         <p className='w-[644px] text-[#767676] text-base leading-[30px]'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the.</p>
-        <button className='mt-[67px] py-4 px-20 text-[#fff] font-DM text-base font-bold border bg-[#2B2B2B] border-[#2B2B2B]'>Continue</button>
+        <Link to="/register" className='mt-[67px] py-4 px-20 text-[#fff] font-DM text-base font-bold border bg-[#2B2B2B] border-[#2B2B2B]'>Continue</Link>
         </div>
     </section>
   )

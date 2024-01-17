@@ -5,6 +5,10 @@ import { useAuth } from '../../../context/Auth';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DropIn from "braintree-web-drop-in-react";
+import { FaLessThan,FaGreaterThan } from "react-icons/fa6";
+// import {  } from "react-icons/fa6";
+
+
 // import toastify from 'react-toastify'
 const CartPage = () => {
   const [cart, setCart] = useCart();
@@ -14,6 +18,7 @@ const CartPage = () => {
   const[loading,setLoading]=useState(false)
   const navigate = useNavigate();
   const [imageData, setImageData] = useState({});
+  
 // console.log(clientToken)
   const handleCartRemove = (pid) => {
     try {
@@ -24,13 +29,31 @@ const CartPage = () => {
       console.log(error);
     }
   };
+  const handleDecreament = (productId) => {
+    const updatedCart = cart.map((item) =>
+      item._id === productId && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+  const handleincreament = (productId) => {
+    const updatedCart = cart.map((item) =>
+      item._id === productId && item.quantity < 10
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+    setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
   const totalPrice = () => {
     try {
         let total = 0;
 
         // Optional chaining to handle the case where cart is undefined or null
         cart?.map((item) => {
-            total = total + parseFloat(item.price);
+            total = total + parseFloat(item.price*item.quantity);
         });
 
         // Formatting the total as currency using toLocaleString
@@ -59,31 +82,39 @@ const CartPage = () => {
 
   const handlePayment = async () => {
     try {
-      setLoading(true); // Set loading to true before making the payment request
-      const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.post(
-        'http://localhost:8080/api/v1/product/braintree/payment',
-        {
-          nonce,
-          cart
-        }
-      );
-      setLoading(false)
-      // Handle the response as needed
+        setLoading(true); // Set loading to true before making the payment request
+        const { nonce } = await instance.requestPaymentMethod();
+        
+        // Make a POST request to the server with payment details
+        const { data } = await axios.post(
+            'http://localhost:8080/api/v1/product/braintree/payment',
+            {
+                nonce,
+                cart,
+                auth
+            }
+        );
+
+        setLoading(false); // Set loading to false after the payment request is made
+
+        // Handle the response as needed
         console.log("hoise");
-      // Update the cart in local storage after successful payment
-      localStorage.removeItem("cart");
-      setCart([]);
-  
-      // Navigate after successful payment
-      navigate("/order");
-  
-      // toastify.success("Payment completed successfully")
+
+        // Update the cart in local storage after successful payment
+        localStorage.removeItem("cart");
+        setCart([]);
+
+        // Navigate after successful payment
+        navigate("/orders");
+
+        // Display a success message (commented out)
+        // toastify.success("Payment completed successfully")
     } catch (error) {
-      console.log(error);
-      setLoading(false); // Set loading to false regardless of success or failure
+        console.log(error);
+        setLoading(false); // Set loading to false regardless of success or failure
     } 
-  };
+};
+
   
   const getProductPhoto = async (productId) => {
     try {
@@ -106,23 +137,28 @@ const CartPage = () => {
 
   return (
     <section >
-      <div className=' flex mx-auto w-container mt-10 justify-between'>
-      <div className='text-center font-DM flex flex-col justify-center'>
+      <div className=' flex-col mx-auto w-container mt-10 justify-between'>
+      <div className='text-center font-DM flex flex-col justify-center mx-auto w-[1000px]'>
         {/* <h1 className=' text-base font-bold text-[#262626]'>
           {`Hello ${auth?.token && auth?.user?.name}`}
         </h1> */}
         {cart.map((cartItem) => (
-          <div key={cartItem._id} className='flex items-center  w-[800px] border-b-2 gap-x-10'>
-            <div className='h-[100px] w-[100px] '>
+          <div key={cartItem._id} className='flex items-center border-b-2 gap-x-10'>
+            <div className='h-[100px] w-[260px] overflow-hidden relative '>
               <img
-                className='object-cover'
+                className='object-cover max-w-full absolute top-[50%] translate-y-[-50%] w-auto h-auto'
                 src={imageData[cartItem._id]}
                 alt=""
                 // onClick={() => (cartItem._id)}
               />
             </div>
-            <h2 className='w-[350px]'>{cartItem.name}</h2>
-            <h2 className='w-[100px]'>Price: {cartItem.price} Tk</h2>
+            <h2 className='w-[350px] text-lg font-DM font-semibold'>{cartItem.name}</h2>
+            <div className='flex'>
+              <button onClick={()=>handleDecreament(cartItem._id)} className='font-DM text-sm'>< FaLessThan/></button>
+            <h2 className='mx-3 text-lg font-DM font-semibold'>{cartItem.quantity}</h2>
+              <button onClick={()=>handleincreament(cartItem._id)} className='font-DM text-sm'>< FaGreaterThan/></button>
+            </div>
+            <h2 className='w-[300px] flex'>Price: {cartItem.price*cartItem.quantity} Tk</h2>
             <button className='border py-3 px-6 bg-[#262626] text-[#fff]'
             onClick={()=>handleCartRemove(cartItem._id
             )}>delete</button>
@@ -130,13 +166,13 @@ const CartPage = () => {
         ))}
       </div>
         <>
-        <p className='font-DM text-lg font-bold mr-20'>Checkout | Payment</p>
-        <p>total :{totalPrice()}</p>
-        <div>
+        <p className='font-DM text-lg text-right font-bold mt-10'>Checkout | Payment</p>
+        <p className='text-right'>total :{totalPrice()}</p>
+        <div className="w-[400px] ml-[70vw]">
           {
             !clientToken || !cart?.length ? (""):(
               <>
-              <DropIn
+              <DropIn 
                 options={
                   {
                     authorization:clientToken,
@@ -148,7 +184,7 @@ const CartPage = () => {
                 onInstance={instance => setInstance(instance)}
                 />
                 <button
-                className='mt-4'
+                className='mt-4 text-center ml-[50%] translate-x-[-50%]'
                 onClick={handlePayment}
                 // disabled={!loading || !auth?.user  }
                 >{loading ? "processing...." : "Make Payment"}</button>

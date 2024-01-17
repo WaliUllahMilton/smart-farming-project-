@@ -1,7 +1,5 @@
+import { createContext, useContext, useState, useEffect } from 'react';
 
-import { createContext, useContext, useState,useEffect } from 'react';
-
-// Create your context
 const CartContext = createContext();
 
 export const useCart = () => {
@@ -10,15 +8,21 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  
-  useEffect(()=>{
-    let existingCart =localStorage.getItem("cart")
-    if(existingCart) {
-      setCart(JSON.parse(existingCart))
-    }
-  },[])
 
-  // Your other cart-related logic goes here...
+  useEffect(() => {
+    // Fetch existing cart from local storage on component mount
+    const existingCart = localStorage.getItem('cart');
+    if (existingCart) {
+      setCart(JSON.parse(existingCart));
+    }
+  }, []); // Empty dependency array ensures this effect runs only once on mount
+
+  useEffect(() => {
+    // Update local storage with the latest cart data whenever the cart changes
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // Other cart-related logic...
 
   return (
     <CartContext.Provider value={[cart, setCart]}>

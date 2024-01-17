@@ -6,6 +6,7 @@ import { IoMdArrowDropdown,IoMdArrowDropup  } from "react-icons/io";
 import { useState,useRef,useEffect } from "react";
 import Profile from "./Profile";
 import CartPopUp from "./CartPopUp";
+import { Link, useNavigate} from "react-router-dom";
 
 
 
@@ -14,7 +15,8 @@ const Search = () => {
     const [toggleBtn,setToggleBtn]= useState(true);
     const[userToggleBtn,setUserToggleBtn]= useState(false)
     const [cartToggleBtn,setCartToggleBtn]= useState(false)
-    const cartref = useRef();
+    // const cartref = useRef();
+    const navigate =useNavigate()
     const userref = useRef()
     useEffect(()=>{
         document.body.addEventListener("click",(e)=>{
@@ -76,7 +78,7 @@ const Search = () => {
                         <Profile/>
                     }
                 </div>
-                <div ref={cartref} className="relative">
+                <div  className="relative" onClick={()=>navigate('/cart')}>
                     <FaShoppingCart/>
                     {cartToggleBtn&&
                     <CartPopUp/>

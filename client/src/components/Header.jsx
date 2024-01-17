@@ -15,7 +15,7 @@ const Header = () => {
             <div>
                 <ul className='flex gap-x-10'>
                     <li><NavLink to='/' className='text-[#767676] font-DM text-sm [&.active]:text-[#262626]' href='#'>Home</NavLink></li>
-                    <li><NavLink to='/shop'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Shop</NavLink></li>
+                    {/* <li><NavLink to='/shop'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Shop</NavLink></li> */}
                     <li><NavLink to='/seller/dashboard'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Seller</NavLink></li>
                     <li><NavLink to='/contacts'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Contacts</NavLink></li>
                     <li><NavLink to='/journal'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Journal</NavLink></li>
