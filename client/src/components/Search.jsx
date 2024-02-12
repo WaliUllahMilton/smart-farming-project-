@@ -92,12 +92,13 @@ const Search = () => {
                     <span className="text-[#262626]">
                         <HiMenuAlt4 />
                     </span>
-                    <div>
+                    <div className='relative'>
                         <p className="text-[#262626] text-sm cursor-pointer" onClick={handleCategoryToggle}>Shop by Category</p>
-                        <ul ref={categoryMenuRef} className={`absolute bg-red-800 w-36 mt-4 ${categoryToggleBtn ? '' : 'hidden'}`}>
+                        <ul ref={categoryMenuRef} className={`absolute top-8 bg-[#F5F5F3] w-36 mt- ${categoryToggleBtn ? '' : 'hidden'}`}>
                             {getAllCategory.map((item, index) => (
                                 <li key={index}>
-                                    <p className="capitalize" onClick={() => handleCategoryClick(item.name)}>
+                                    <p className="border-b-2 pb-2 capitalize text-[#262626] text-sm cursor-pointer" 
+                                    onClick={() => handleCategoryClick(item.name)}>
                                         {item.name}
                                     </p>
                                 </li>

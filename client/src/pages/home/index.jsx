@@ -79,7 +79,8 @@ const Home = () => {
     <section>
       <div>
         <div className='flex justify-right gap-x-6 flex-wrap w-container mx-auto mt-[40px] mb-[80px]'>
-          {allProduct.map((product) => (
+          {allProduct.length===0 ? <h2>There are no Product</h2> :
+          allProduct.map((product) => (
             <div key={product._id} className='border font-DM w-[400px]'>
               <div className='w-full h-[250px]'>
                 <img
