@@ -28,6 +28,8 @@ router.get("/hi",sellerLoginController,(req,res)=>{
       body
   })
 })
+//order list || get
+// router.get("/orders",getOrdersController)
 
 export default router;
 
@@ -49,5 +51,5 @@ router.get("/user-auth", requireSignIn, (req, res) => {
     res.status(200).send({ ok : req.role});
   });
   
-router.get("/orders", getOrdersController);
+router.get('/orders/:id', getOrdersController);
   

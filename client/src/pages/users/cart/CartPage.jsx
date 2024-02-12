@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 import  { useEffect, useState } from 'react';
 import { useCart } from '../../../context/Cart';

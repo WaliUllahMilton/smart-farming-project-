@@ -11,18 +11,33 @@ const index = () => {
     const[password,setPassword]=useState()
     const[address,setAddress]=useState()
     const[answer,setAnswer]=useState()
+    const[error,setError]=useState()
+    const[passError,setPassError]=useState()
     const navigate=useNavigate()
     const handleSubmit= async(e)=>{
+        const givenPassword=password
         e.preventDefault();
         try {
-            const {res} = await axios.post("http://localhost:8080/api/v1/auth/register",{name,email,password,address,answer});
-            navigate("/login");
-            console.log(res)
+            if (!name || !email || !address || !answer) {
+                setError("Every field is required");
+            }
+            else if (!(givenPassword.length >= 8) || !/[A-Z]/.test(givenPassword) || !/[a-z]/.test(givenPassword) || !/\d/.test(givenPassword)) {
+                setPassError("Your password must be at least 8 characters including a lowercase letter, an uppercase letter, and a number");
+            }
+           
+            else{
+                setPassword(givenPassword)
+                const {res} = await axios.post("http://localhost:8080/api/v1/auth/register",{name,email,password,address,answer});
+                navigate("/login");
+                console.log(res)
+
+            }
         } catch (error) {
             console.log(error)
         }
 
     }
+    
 
   return (
     <section className='pt-[124px] pb-[140px]'>
@@ -66,9 +81,13 @@ const index = () => {
                                 <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>Password</label>
                                 <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b'  type="password" placeholder='*********'
                                 value={password}
-                                onChange={(e)=>setPassword(e.target.value)}/>
+                                onChange={(e)=>setPassword(e.target.value)}
+                                // onChange={(e) => setPassError('')}
+                                />
+                                <p>{passError}</p>
                             </div>
                     </div>
+                        <p>{error}</p>
                         <button className='py-4 px-20 text-[#262626] font-DM text-base font-bold border border-[#2B2B2B]'>Sign Up</button>
                     </form>
             </div>

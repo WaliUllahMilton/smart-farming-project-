@@ -116,7 +116,8 @@ export const loginController = async(req, res) => {
             user: {
                 name: user.name,
                 email: user.email,
-                address: user.address
+                address: user.address,
+                id:user._id
             },
             token,
         });
@@ -258,16 +259,34 @@ export const testController = (req, res) => {
 }
 //orders controller
 
-export const getOrdersController = async(req,res)=>{
+// export const getOrdersController = async(req,res)=>{
+//     try {
+//         const orders = await orderModel.find({buyer:req}).populate("products","-photo").populate("buyer","name");
+//         res.json(orders)
+
+//     } catch (error) {
+//         console.log("req body",req.params)
+//         // console.log(error)
+//         res.status(500).send({
+//             success:false,
+//             message:"error while getting orders",
+//             error
+//         })
+//     }
+// }
+export const getOrdersController = async (req, res) => {
     try {
-        const orders = await orderModel.find({buyer:req.user._id}).populate("products","-photo").populate("buyer","name");
-        res.json(orders)
+        const userId = req.params.id; // Assuming the id is passed in the URL as a parameter
+        const orders = await orderModel.find({ buyer : userId })
+            .populate("products", "-photo")
+            .populate("buyer", "name");
+        res.json(orders);
     } catch (error) {
-        console.log(error)
-        res.status(500).send({
-            success:false,
-            message:"error while getting orders",
-            error
-        })
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Error while getting orders",
+            error: error.message,
+        });
     }
-}
+};

@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../context/Auth';
+// import { useAuth } from '../../context/Auth';
 import { useCart } from '../../context/Cart';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import { useSearchData } from '../../context/search';
 const Home = () => {
   const [cart, setCart] = useCart();
-  const [allProduct, setAllProduct] = useState([]);
+  const [allProduct, setAllProduct] = useSearchData();
   const [imageData, setImageData] = useState({});
-  const [auth, setAuth] = useAuth();
+ 
+  // const [auth, setAuth] = useAuth();
 
   const getAllProduct = async () => {
     try {
@@ -31,7 +32,7 @@ const Home = () => {
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
     getAllProduct();
   }, []);

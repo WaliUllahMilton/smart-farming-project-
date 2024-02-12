@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     answer:{
         type:String,
         required:true
+    },
+    id:{
+        type:String
     }
 }, { timestamps: true });
 

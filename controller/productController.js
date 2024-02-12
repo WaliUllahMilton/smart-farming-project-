@@ -227,7 +227,7 @@ export const braintreeTokenController = async(req,res)=>{
 
 export const braintreePaymentController = async (req, res) => {
     try {
-        const { amount,nonce,products } = req.body;
+        const { amount,nonce,products,buyer } = req.body;
         // const {nonce} = req.body;
         // Use Braintree gateway to process the transaction
                 
@@ -239,17 +239,27 @@ export const braintreePaymentController = async (req, res) => {
             submitForSettlement: true
             }
         })
-        res.status(200).send(req.body)
-
-      
-            // Braintree payment successful, save order details to the database
+        let cid=[];
+        const cart = req.body.cart;
+        cart.map((item)=>{
+            cid.push({product : item._id,
+                    quantity: item.quantity
+                })
+        })
+        
+        // console.log("request",req.body.cart)
+        // console.log("user",req.body.cart)
+        console.log("djshaduhsau",cid)
+        // Braintree payment successful, save order details to the database
         const order = new orderModel({
-            products: [products],
-            buyer: req.body.user,
+            products: cid,
+            buyer: req.body.auth.user.id,
             status: "Processing",
         });
-
+        
         await order.save();
+        
+        res.status(200).send(req.body)
 
           
     } catch (error) {
