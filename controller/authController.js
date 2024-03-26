@@ -325,3 +325,17 @@ export const OrderControll = async (req,res) =>{
         })
     }
 }
+
+
+export const getUserProfile = async (req, res) => {
+    try {
+      // Query the database to fetch all users
+      const users = await userModel.find();
+  
+      // Send the retrieved data back as a response
+      res.json(users);
+    } catch (error) {
+      // Handle errors
+      res.status(500).json({ message: error.message });
+    }
+  }

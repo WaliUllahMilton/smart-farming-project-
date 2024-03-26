@@ -26,7 +26,7 @@ const Profile = () => {
                  </>
                   :
                  <>
-                  <li  className="bg-[#2B2B2B] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#FFF] " to='profile'>{
+                  <li  className="bg-[#2B2B2B] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#FFF] " to='/user'>{
                     <pre>{JSON.stringify(auth.user.name)}</pre>
                   }</NavLink></li>
                   

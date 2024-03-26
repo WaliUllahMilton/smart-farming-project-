@@ -7,7 +7,8 @@ sellerLoginController,
 sellerForgotPasswordController,
 getOrdersController,
 getSellerOrdersController,
-OrderControll} from '../controller/authController.js'
+OrderControll,
+getUserProfile} from '../controller/authController.js'
 import {  requireSignIn } from '../middleware/authMiddleWare.js';
 // router object
 const router = express.Router();
@@ -47,12 +48,21 @@ router.post('/seller-forgotpasswor',sellerForgotPasswordController);
 
 router.post("/add-product",)
 
-//protected route auth
+router.get('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
 
-router.get("/user-auth", requireSignIn, (req, res) => {
-    res.status(200).send({ ok : req.role});
-  });
-  
+
+router.get('/user',getUserProfile);
 router.get('/orders/:id', getOrdersController);
 // router.get('/orders', getSellerOrdersController);
 router.get('/orders', getSellerOrdersController);
