@@ -290,3 +290,38 @@ export const getOrdersController = async (req, res) => {
         });
     }
 };
+export const getSellerOrdersController = async (req, res) => {
+    try {
+        // const userId = req.params.id; // Assuming the id is passed in the URL as a parameter
+        const orders = await orderModel.find({})
+        .populate("products", "-photo")
+        .populate("buyer", "name")
+        .sort({createAt:-1});
+        // res.json(orders);
+        res.json(orders);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Error while getting orders",
+            error: error.message,
+        });
+    }
+};
+
+//Order Update
+export const OrderControll = async (req,res) =>{
+    try {
+        const {orderId}=req.params;
+        const {status}=req.body;
+        const orders = await orderModel.findByIdAndUpdate(orderId,{status},{new : true});
+        res.json(orders)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:"false",
+            message:"error while updating",
+            error
+        })
+    }
+}

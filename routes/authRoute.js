@@ -5,7 +5,9 @@ forgotPasswordController,
 sellerRegisterController, 
 sellerLoginController,
 sellerForgotPasswordController,
-getOrdersController} from '../controller/authController.js'
+getOrdersController,
+getSellerOrdersController,
+OrderControll} from '../controller/authController.js'
 import {  requireSignIn } from '../middleware/authMiddleWare.js';
 // router object
 const router = express.Router();
@@ -52,4 +54,7 @@ router.get("/user-auth", requireSignIn, (req, res) => {
   });
   
 router.get('/orders/:id', getOrdersController);
-  
+// router.get('/orders', getSellerOrdersController);
+router.get('/orders', getSellerOrdersController);
+//order update
+router.put('/order-controll/:orderId',OrderControll)

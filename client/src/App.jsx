@@ -13,6 +13,7 @@ import Registration from './pages/users/registration/index';
 import SellerRegistration from './pages/seller/registration/Index';
 import SellerLogin from './pages/seller/login/Index';
 import SellerDashboard from './pages/seller/dashboard/Index';
+import SellerOrder from './pages/seller/order/Index';
 import CreateCategory from './pages/category/Index';
 import CreateProduct from './pages/product/create product/Index';
 import AllProducts from './pages/product/all products/Index';
@@ -61,6 +62,7 @@ const App = () => {
             <Route path="category" element={<CreateCategory />} />
             <Route path="all-product" element={<AllProducts />} />
             <Route path="create-product" element={<CreateProduct />} />
+            <Route path="orders" element={<SellerOrder />} />
         </Route>
       </Routes>
     </Router>

@@ -26,10 +26,11 @@ const Profile = () => {
                  </>
                   :
                  <>
-                  <li className="bg-[#2B2B2B] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#FFF] " to=''>{
+                  <li  className="bg-[#2B2B2B] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#FFF] " to='profile'>{
                     <pre>{JSON.stringify(auth.user.name)}</pre>
                   }</NavLink></li>
-                    <li className="bg-[#fff] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#767676] " to=''>My Order</NavLink></li>
+                  
+                    <li className="bg-[#fff] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#767676] " to='orders'>My Order</NavLink></li>
                   <li className="bg-[#2B2B2B] w-full text-center py-4 font-bold text-base"><NavLink className="text-[#fff]" onClick={handleLogOut} >Log Out</NavLink></li>
                 
                  </>

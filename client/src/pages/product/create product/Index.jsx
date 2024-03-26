@@ -29,6 +29,15 @@ const Index = () => {
         console.log(error)
     }
 }
+const getAllProduct = async () => {
+  try {
+      const res = await axios.get("http://localhost:8080/api/v1/product/get-product");
+      
+  } catch (error) {
+      console.log(error);
+  }
+};
+
 
 useEffect(() => {
     AllCategory()
@@ -46,6 +55,7 @@ const handleSubmit = async(e)=>{
     productData.append("category",category)
     const res = await axios.post('http://localhost:8080/api/v1/product/create-product', productData)
     console.log("succes");
+    getAllProduct()
     // window.location.reload()
   } catch (error) {
     console.log(error);
