@@ -11,7 +11,7 @@ const Index = () => {
     const navigate = useNavigate()
     // const[user,setUser]=useState()
     const [email,setEmail]= useState();
-    const [answer,setAnswer]= useState();
+    const [phoneNumber,setPhoneNumber]= useState();
     const [newPassword,setNewPassword]=useState();
     // const [auth,setAuth]=useAuth();
     console.log(email)
@@ -19,7 +19,7 @@ const Index = () => {
     const handleSubmit =async(e)=>{
         e.preventDefault()
         try {
-            const res = await axios.post("http://localhost:8080/api/v1/auth/forgot-password",{email,answer,newPassword})
+            const res = await axios.post("http://localhost:8080/api/v1/auth/forgot-password",{email,phoneNumber,newPassword})
             // const {data} =res;
             // const{token,user}=data
             navigate('/login')
@@ -56,8 +56,8 @@ const Index = () => {
                     <div>
                         <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>Answer</label>
                         <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b' type="text" placeholder='yourmail@something.com'
-                        value={answer}
-                        onChange={(e)=>setAnswer(e.target.value)}
+                        value={phoneNumber}
+                        onChange={(e)=>setPhoneNumber(e.target.value)}
                         />
                     </div>
                     <div>

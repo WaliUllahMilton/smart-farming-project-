@@ -4,6 +4,7 @@ import { useCart } from '../../context/Cart';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useSearchData } from '../../context/search';
+import Search from '../../components/Search';
 const Home = () => {
   const [cart, setCart] = useCart();
   const [allProduct, setAllProduct] = useSearchData();
@@ -77,9 +78,11 @@ const Home = () => {
   
   return (
     <section>
-      <div>
-        <div className='flex justify-right gap-x-6 flex-wrap w-container mx-auto mt-[40px] mb-[80px]'>
-          {allProduct.length===0 ? <h2>There are no Product</h2> :
+      <Search/>
+      <div className='w-full'>
+        <div className=' w-container mx-auto mt-[40px] mb-[80px]'>
+         <div className='flex justify-center  gap-6 flex-wrap'>
+         {allProduct.length===0 ? <h2>There are no Product</h2> :
           allProduct.map((product) => (
             <div key={product._id} className='border font-DM w-[400px]'>
               <div className='w-full h-[250px]'>
@@ -108,6 +111,7 @@ const Home = () => {
               </div>
             </div>
           ))}
+         </div>
         </div>
       </div>
     </section>

@@ -13,7 +13,7 @@ import { FaLessThan,FaGreaterThan } from "react-icons/fa6";
 // import toastify from 'react-toastify'
 const CartPage = () => {
   const [cart, setCart] = useCart();
-  const [auth, setAuth] = useAuth();
+  const {auth, setAuth} = useAuth();
   const [clientToken,setClientToken]=useState("")
   const [instance,setInstance]=useState("")
   const[loading,setLoading]=useState(false)

@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-refresh/only-export-components */
+import axios from 'axios';
 import { createContext, useState, useContext, useEffect } from 'react';
 
 // Create separate contexts for auth and SellerAuth
@@ -10,7 +8,8 @@ const SellerAuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({
         user: null,
-        token: ""
+        token: "",
+        _id: ""
     });
 
     const [sellerAuth, setSellerAuth] = useState({
@@ -19,32 +18,61 @@ const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        const data = localStorage.getItem('auth');
-        if (data) {
-            const parseData = JSON.parse(data);
-            setAuth({
-                ...auth,
-                user: parseData.user,
-                token: parseData.token
-            });
+        const fetchData = async () => {
+            const data = localStorage.getItem('auth');
+            if (data) {
+                const parseData = JSON.parse(data);
+                setAuth(prevAuth => ({
+                    ...prevAuth,
+                    user: parseData.user,
+                    token: parseData.token,
+                    _id: parseData._id
+                }));
+            }
+            await fetchUserData();
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('auth', JSON.stringify(auth));
+    }, [auth]);
+
+    const fetchUserData = async () => {
+        try {
+            if (auth._id) {
+                const response = await axios.get(`http://localhost:8080/api/v1/auth/user/${auth._id}`);
+                const userData = response.data;
+                setAuth(prevAuth => ({
+                    ...prevAuth,
+                    user: userData,
+                    _id: userData._id
+                }));
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
         }
-    }, []); // Run once on component mount
+    };
 
     useEffect(() => {
         const data = localStorage.getItem('sellerAuth');
         if (data) {
             const parseData = JSON.parse(data);
-            setSellerAuth({
-                ...sellerAuth,
+            setSellerAuth(prevSellerAuth => ({
+                ...prevSellerAuth,
                 user: parseData.user,
                 token: parseData.token
-            });
+            }));
         }
-    }, []); // Run once on component mount
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('sellerAuth', JSON.stringify(sellerAuth));
+    }, [sellerAuth]);
 
     return (
-        <AuthContext.Provider value={[auth, setAuth]}>
-            <SellerAuthContext.Provider value={[sellerAuth, setSellerAuth]}>
+        <AuthContext.Provider value={{ auth, setAuth }}>
+            <SellerAuthContext.Provider value={{ sellerAuth, setSellerAuth }}>
                 {children}
             </SellerAuthContext.Provider>
         </AuthContext.Provider>

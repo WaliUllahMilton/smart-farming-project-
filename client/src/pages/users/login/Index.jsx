@@ -13,7 +13,7 @@ const Index = () => {
     const [email,setEmail]= useState();
  
     const [password,setPassword]=useState();
-    const [auth,setAuth]=useAuth();
+    const {auth,setAuth}=useAuth();
     console.log(email)
     console.log(password)
     const handleSubmit =async(e)=>{

@@ -8,7 +8,7 @@ import orderModel from "../models/orderModel.js";
 //registration controller for user
 export const registerController = async(req, res) => {
     try {
-        const { name, email, password, address,answer } = req.body;
+        const { name, email, password, address,phoneNumber } = req.body;
         //validation
         if (!name || !email || !password || !address) {
             return res.status(400).json({ message: "name is require" });
@@ -25,7 +25,7 @@ export const registerController = async(req, res) => {
         // hash the pashh
         const hashedPassword = await hashPassword(password);
         //save user to database
-        const user = await new userModel({ name, email,answer, address, password: hashedPassword }).save();
+        const user = await new userModel({ name, email,phoneNumber, address, password: hashedPassword }).save();
         res.status(201).json({
             success: true,
             message: "user register successfully",
@@ -46,7 +46,7 @@ export const registerController = async(req, res) => {
 
 export const sellerRegisterController = async(req, res) => {
     try {
-        const { name, email, password, address,role,answer } = req.body;
+        const { name, email, password, address,role,phoneNumber } = req.body;
         //validation
         if (!name || !email || !password || !address) {
             return res.status(400).json({ message: "name is require" });
@@ -63,7 +63,7 @@ export const sellerRegisterController = async(req, res) => {
         // hash the pashh
         const hashedPassword = await hashPassword(password);
         //save user to database
-        const user = await new sellerModel({ name,role, email,answer, address, password: hashedPassword }).save();
+        const user = await new sellerModel({ name,role, email,phoneNumber, address, password: hashedPassword }).save();
         res.status(201).json({
             success: true,
             message: "user register successfully",
@@ -182,18 +182,18 @@ export const sellerLoginController = async(req, res) => {
 // forgot password controller
 export const forgotPasswordController = async (req,res)=>{
     try {
-        const {email,answer,newPassword}=req.body;
+        const {email,phoneNumber,newPassword}=req.body;
         if(!email){
             res.status(400).send({message:"Email is required"});
         }
-        if(!answer){
+        if(!phoneNumber){
             res.status(400).send({message:"Answare is required"});
         }
         if(!newPassword){
             res.status(400).send({message:"New Password is required"});
         }
         //check
-        const user =await userModel.findOne({email,answer});
+        const user =await userModel.findOne({email,phoneNumber});
         //validation
         if(!user){
             return res.status(404).send({
@@ -219,18 +219,18 @@ export const forgotPasswordController = async (req,res)=>{
 //seller forgot passwor
 export const sellerForgotPasswordController = async (req,res)=>{
     try {
-        const {email,answer,newPassword}=req.body;
+        const {email,phoneNumber,newPassword}=req.body;
         if(!email){
             res.status(400).send({message:"Email is required"});
         }
-        if(!answer){
+        if(!phoneNumber){
             res.status(400).send({message:"Answare is required"});
         }
         if(!newPassword){
             res.status(400).send({message:"New Password is required"});
         }
         //check
-        const user =await sellerModel.findOne({email,answer});
+        const user =await sellerModel.findOne({email,phoneNumber});
         //validation
         if(!user){
             return res.status(404).send({

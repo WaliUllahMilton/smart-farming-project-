@@ -5,21 +5,25 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { FaGreaterThan } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-const index = () => {
+import { toast } from 'react-toastify';const index = () => {
     const[name,setName]=useState()
     const[email,setEmail]=useState()
     const[password,setPassword]=useState()
     const[address,setAddress]=useState()
-    const[answer,setAnswer]=useState()
+    const[phoneNumber,setphoneNumber]=useState()
     const navigate=useNavigate()
     const handleSubmit= async(e)=>{
         e.preventDefault();
         try {
-            const {res} = await axios.post("http://localhost:8080/api/v1/auth/seller-register",{name,email,password,address,answer});
+            const {res} = await axios.post("http://localhost:8080/api/v1/auth/seller-register",{name,email,password,address,phoneNumber});
             navigate("/seller-login");
-            console.log(res)
+            // console.log(res)
+            // const resData = res.resData
+            // console.log((resData))
+            toast.success("Registration Successfully")
         } catch (error) {
             console.log(error)
+            toast.error("R")
         }
 
     }
@@ -35,17 +39,17 @@ const index = () => {
                 <form onSubmit={handleSubmit}>
                     <div className='flex flex-wrap gap-y-6 gap-x-[391px] mb-[29px]'>
                             <div>
-                                <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>Email Address</label>
-                                <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b' type="email" placeholder='yourmail@something.com'
-                                value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
-                                />
-                            </div>
-                            <div>
                                 <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>Name</label>
                                 <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b' type="text" placeholder='Write your Name'
                                 value={name}
                                 onChange={(e)=>setName(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>Email Address</label>
+                                <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b' type="email" placeholder='yourmail@something.com'
+                                value={email}
+                                onChange={(e)=>setEmail(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -56,10 +60,10 @@ const index = () => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>What is your favorite game?</label>
-                                <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b' type="text" placeholder='Write your Answer'
-                                value={answer}
-                                onChange={(e)=>setAnswer(e.target.value)}
+                                <label htmlFor="" className='mb-3 text-[#262626] font-DM text-base font-bold leading-6'>Write Your Phone Number</label>
+                                <input className='block outline-none w-[500px] text-[#767676] font-DM text-sm border-b' type="text" placeholder='Write your phoneNumber'
+                                value={phoneNumber}
+                                onChange={(e)=>setphoneNumber(e.target.value)}
                                 />
                             </div>
                             <div>

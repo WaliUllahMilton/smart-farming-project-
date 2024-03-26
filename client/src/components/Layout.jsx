@@ -11,7 +11,7 @@ const Layout = ( )=> {
   return (
     <>
         <Header/>
-        <Search/>
+        {/* <Search/> */}
         <Outlet/>
         <Footer/>
     </>

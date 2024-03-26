@@ -1,22 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HiMenuAlt4 } from "react-icons/hi";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaUser, FaShoppingCart } from "react-icons/fa";
-import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-import Profile from "./Profile";
-import { useNavigate } from "react-router-dom";
+// import { FaUser, FaShoppingCart } from "react-icons/fa";
+// import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+// import Profile from "./Profile";
+// import { useNavigate } from "react-router-dom";
 import { useSearchData } from "../context/search";
 import axios from "axios";
 
 const Search = () => {
-    const [toggleBtn, setToggleBtn] = useState(true);
-    const [userToggleBtn, setUserToggleBtn] = useState(false);
+    // const [toggleBtn, setToggleBtn] = useState(true);
+    // const [userToggleBtn, setUserToggleBtn] = useState(false);
     const [categoryToggleBtn, setCategoryToggleBtn] = useState(false);
     const [getAllCategory, setGetAllCategory] = useState([]);
     const [searchItem, setSearchItem] = useState("");
     const [allProduct, setAllProduct] = useState([]);
     const [searchValue, setSearchValue] = useSearchData();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const userref = useRef();
     const categoryMenuRef = useRef();
 
@@ -94,7 +94,7 @@ const Search = () => {
                     </span>
                     <div className='relative'>
                         <p className="text-[#262626] text-sm cursor-pointer" onClick={handleCategoryToggle}>Shop by Category</p>
-                        <ul ref={categoryMenuRef} className={`absolute top-8 bg-[#F5F5F3] w-36 mt- ${categoryToggleBtn ? '' : 'hidden'}`}>
+                        <ul ref={categoryMenuRef} className={`absolute top-8 bg-[#F5F5F3] w-36  ${categoryToggleBtn ? '' : 'hidden'}`}>
                             {getAllCategory.map((item, index) => (
                                 <li key={index}>
                                     <p className="border-b-2 pb-2 capitalize text-[#262626] text-sm cursor-pointer" 
@@ -118,19 +118,20 @@ const Search = () => {
                         <FaMagnifyingGlass />
                     </span>
                 </div>
-                <div className="flex gap-x-10 items-center">
-                    <div className="flex gap-x-1 relative" ref={userref}>
+                <div className="">
+                    {/* flex gap-x-10 items-center */}
+                    {/* <div className="flex gap-x-1 relative" ref={userref}>
                         <span className="text-[#262626] text-base">
                             <FaUser />
                         </span>
                         <span className="text-[#262626] text-base">
                             {toggleBtn ? <IoMdArrowDropdown /> : <IoMdArrowDropup />}
                         </span>
-                        {userToggleBtn && <Profile />}
+                        {userToggleBtn && <Profile/>}
                     </div>
                     <div className="relative" onClick={() => navigate('/cart')}>
                         <FaShoppingCart />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </section>

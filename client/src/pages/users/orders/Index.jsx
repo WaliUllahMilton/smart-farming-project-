@@ -4,7 +4,7 @@ import {useState,useEffect} from 'react'
 import { useAuth } from '../../../context/Auth'
 const Index = () => {
   const [orders, setOrders] = useState([]);
-  const [auth, setAuth] = useAuth();
+  const {auth, setAuth} = useAuth();
   const [allProduct, setAllProduct] = useState([]);
   const [imageData, setImageData] = useState({});
 
