@@ -7,12 +7,14 @@ import { FaUser } from 'react-icons/fa6'
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io'
 import { useEffect, useRef, useState } from 'react'
 import { FaShoppingCart } from 'react-icons/fa'
+import { useAuth } from '../context/Auth'
 
 const Header = () => {
     const userref = useRef();
     const [toggleBtn, setToggleBtn] = useState(true);
     const [userToggleBtn, setUserToggleBtn] = useState(false);
     const navigate = useNavigate();
+    const {auth,setAuth}=useAuth()
     useEffect(() => {
         document.body.addEventListener("click", (e) => {
             if (userref.current.contains(e.target)) {
@@ -33,15 +35,26 @@ const Header = () => {
                     <Image src={Logo} alt='logo.png'/>
                 </Link>
             </div>
-            <div className='ml-[280px]'>
+            {auth.token ? (
+                <div className='ml-[280px]'>
                 <ul className='flex gap-x-10'>
                     <li><NavLink to='/' className='text-[#767676] font-DM text-sm [&.active]:text-[#262626]' href='#'>Home</NavLink></li>
                     {/* <li><NavLink to='/shop'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Shop</NavLink></li> */}
-                    <li><NavLink to='/seller/dashboard'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Seller</NavLink></li>
                     <li><NavLink to='/contacts'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Contacts</NavLink></li>
                     <li><NavLink to='/journal'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Journal</NavLink></li>
                 </ul>
             </div>
+            ):(
+            <div className='ml-[280px]'>
+            <ul className='flex gap-x-10'>
+                <li><NavLink to='/' className='text-[#767676] font-DM text-sm [&.active]:text-[#262626]' href='#'>Home</NavLink></li>
+                {/* <li><NavLink to='/shop'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Shop</NavLink></li> */}
+                <li><NavLink to='/seller/dashboard'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Seller</NavLink></li>
+                <li><NavLink to='/contacts'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Contacts</NavLink></li>
+                <li><NavLink to='/journal'className='text-[#767676] [&.active]:text-[#262626]' href='#'>Journal</NavLink></li>
+            </ul>
+        </div>)}
+            
             <div>
 
             </div>

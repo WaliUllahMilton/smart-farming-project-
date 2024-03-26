@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {  useSellerAuth } from '../../../context/Auth'
 
 const SellerDashboard = () => {
-  const[sellerAuth,setSellerAuth]= useSellerAuth();
+  const {sellerAuth,setSellerAuth}= useSellerAuth();
   const handleLogOut = ()=>{
     setSellerAuth({
       ...sellerAuth, user:"",token:""

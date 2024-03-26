@@ -25,7 +25,7 @@ const Profile = () => {
 
   return (
     <>
-        <section className="absolute right-0 top-12   ">
+        <section className="absolute z-50 right-0 top-12   ">
             <ul className= "w-[200px] ">
                 
                 

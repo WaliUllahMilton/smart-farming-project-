@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useRef, useEffect } from 'react';
 import { HiMenuAlt4 } from "react-icons/hi";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -54,6 +55,7 @@ const Search = () => {
     useEffect(() => {
         document.body.addEventListener("click", (e) => {
             if (userref.current.contains(e.target)) {
+            
                 setToggleBtn(false);
                 setUserToggleBtn(true);
             } else {
@@ -86,18 +88,18 @@ const Search = () => {
     };
 
     return (
-        <section className="bg-[#F5F5F3] py-6 ">
+        <section className="bg-[#F5F5F3] py-6 relative">
             <div className="flex justify-between w-container mx-auto">
                 <div className="flex items-center gap-x-3">
                     <span className="text-[#262626]">
                         <HiMenuAlt4 />
                     </span>
-                    <div className='relative'>
+                    <div className=''>
                         <p className="text-[#262626] text-sm cursor-pointer" onClick={handleCategoryToggle}>Shop by Category</p>
-                        <ul ref={categoryMenuRef} className={`absolute top-8 bg-[#F5F5F3] w-36  ${categoryToggleBtn ? '' : 'hidden'}`}>
+                        <ul ref={categoryMenuRef} className={`absolute left-0 top-[106px] w-[218px] h-[100vh]  bg-[#F5F5F3]  ${categoryToggleBtn ? '' : 'hidden'}`}>
                             {getAllCategory.map((item, index) => (
                                 <li key={index}>
-                                    <p className="border-b-2 pb-2 capitalize text-[#262626] text-sm cursor-pointer" 
+                                    <p className="pl-4 border-b-2 pb-2 capitalize text-[#262626] text-sm cursor-pointer" 
                                     onClick={() => handleCategoryClick(item.name)}>
                                         {item.name}
                                     </p>

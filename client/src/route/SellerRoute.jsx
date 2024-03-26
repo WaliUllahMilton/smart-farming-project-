@@ -1,13 +1,17 @@
-/* eslint-disable no-unused-vars */
-import React from 'react'
-import { useSellerAuth } from '../context/Auth'
-import { Navigate, Outlet } from 'react-router-dom'
-// import {SellerDashboard} from '../pages/seller/dashboard/Index'
-const PrivateRoute = () => {
-    const [auth,setAuth] = useSellerAuth()
-    console.log(auth.token)
-    console.log(auth)
-  return auth.token==""? <Navigate to='/seller-login'/> : <Outlet/>
-}
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useSellerAuth } from '../context/Auth'; // Import useSellerAuth from the correct location
 
-export default PrivateRoute
+const SellerPrivateROute = () => {
+  const { sellerAuth } = useSellerAuth(); // Destructure sellerAuth from the returned context value
+
+  // If sellerAuth.token is not set, redirect to the login page
+  if (!sellerAuth.token) {
+    return <Navigate to="/seller-login" />;
+  }
+
+  // If sellerAuth.token is set, render the nested routes
+  return <Outlet />;
+};
+
+export default SellerPrivateROute;

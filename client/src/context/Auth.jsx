@@ -14,7 +14,8 @@ const AuthProvider = ({ children }) => {
 
     const [sellerAuth, setSellerAuth] = useState({
         user: null,
-        token: ""
+        token: "",
+        _id:""
     });
 
     useEffect(() => {
