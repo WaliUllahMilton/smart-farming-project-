@@ -8,7 +8,10 @@ sellerForgotPasswordController,
 getOrdersController,
 getSellerOrdersController,
 OrderControll,
-getUserProfile} from '../controller/authController.js'
+getUserProfile,
+deleteUserByIdAndRole,
+
+adminLoginController} from '../controller/authController.js'
 import {  requireSignIn } from '../middleware/authMiddleWare.js';
 import userModel from '../models/userModel.js';
 // router object
@@ -86,3 +89,5 @@ router.get('/orders/:id', getOrdersController);
 router.get('/orders', getSellerOrdersController);
 //order update
 router.put('/order-controll/:orderId',OrderControll)
+router.delete('/delete-user/:id',deleteUserByIdAndRole)
+router.post('/admin-login',adminLoginController)

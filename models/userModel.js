@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
     },
     id:{
         type:String
+    },role: {
+        type: String,
+        default:"Customer"
     }
 }, { timestamps: true });
 

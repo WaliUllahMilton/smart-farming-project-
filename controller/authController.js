@@ -4,6 +4,7 @@ import JWT from "jsonwebtoken";
 import dotenv from 'dotenv';
 import sellerModel from "../models/sellerModel.js";
 import orderModel from "../models/orderModel.js";
+import adminModel from "../models/adminModel.js";
 
 //registration controller for user
 export const registerController = async(req, res) => {
@@ -339,3 +340,89 @@ export const getUserProfile = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   }
+
+
+ 
+  export async function deleteUserByIdAndRole(req, res) {
+    const userId = req.params.id; // Get the user ID from the request parameters
+
+    try {
+        // Find the user by ID
+        const user = await userModel.findById(userId);
+
+        // User existing check
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Role check: if role is not Customer, delete seller
+        if (user.role !== "Customer") {
+            // Assuming sellerModel is correctly imported and defined
+            const deleteSeller = await sellerModel.findByIdAndDelete(userId);
+            if (!deleteSeller) {
+                return res.status(404).json({ message: "Seller not found" });
+            }
+            return res.status(200).json({ message: "Seller deleted successfully", deletedSeller });
+        }
+
+        // Delete user
+        const deletedUser = await userModel.findByIdAndDelete(userId);
+        if (!deletedUser) {
+            console.log(req.params)
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json({ message: "User deleted successfully", deletedUser });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        console.log(req.params)
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+export const adminLoginController = async (req, res) => {
+    try {
+        const { name, password } = req.body;
+        // Validation
+        if (!name || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email or password",
+                errr:req.body
+            });
+        }
+
+        // Check admin
+        const admin = await adminModel.findOne({ password });
+        if (!admin) {
+            return res.status(404).json({
+                success: false,
+                message: "Admin not found",
+                errr:req.body
+            });
+        }
+
+       
+        if (password !== admin.password) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid password"
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            user: {
+                name: admin.name,
+                role: admin.role,
+                id: admin._id
+            },
+            // token,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Error in login",
+            error: error.message
+        });
+    }
+};
