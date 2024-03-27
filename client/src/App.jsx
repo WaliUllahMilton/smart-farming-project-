@@ -20,6 +20,7 @@ import AllProducts from './pages/product/all products/Index';
 import User from './pages/users/user/Index';
 import UserProfileUpdate from './pages/users/user/profileUpdate/Index';
 import Orders from './pages/users/orders/Index';
+import Admin from './pages/admin/Index';
 import ForgotPassword from './pages/users/forgot/Index';
 import PrivateRoute from './route/PrivateRoute';
 import SellerRoute from './route/SellerRoute';
@@ -66,6 +67,7 @@ const App = () => {
             <Route path="create-product" element={<CreateProduct />} />
             <Route path="orders" element={<SellerOrder />} />
         </Route>
+        <Route path='/admin' element={<Admin/>}/>
       </Routes>
     </Router>
 

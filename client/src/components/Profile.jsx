@@ -1,8 +1,9 @@
-import {  NavLink,useNavigate } from "react-router-dom";
+import {  NavLink,  } from "react-router-dom";
 import { useAuth } from "../context/Auth";
+import { toast } from "react-toastify";
 // import axios from "axios";
 const Profile = () => {
-  const navigate = useNavigate()
+  // const history =useHistory()
  const{auth,setAuth}= useAuth()
 //  const userID =auth.user.id
  const handleLogOut = ()=>{
@@ -10,7 +11,12 @@ const Profile = () => {
     ...auth, user:"",token:""
   })
   localStorage.removeItem('auth');
-  navigate('/')
+  // history.push("/")
+  toast.success("Logged Out SuccessFUlly",{
+    position:"top-center",
+    autoClose:2000
+  })
+  
  }
 // const handleUserProfile = async (userID) => {
 //   try {

@@ -5,6 +5,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { FaGreaterThan } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Index = () => {
     const [name, setName] = useState('');
@@ -27,11 +28,16 @@ const Index = () => {
             } else {
                 const res = await axios.post("http://localhost:8080/api/v1/auth/register", { name, email, password, address, phoneNumber });
                 navigate("/login");
-                console.log(res);
+                // console.log(res);
+                toast.success("Registration Successfully")
                 
             }
         } catch (error) {
             console.log(error);
+            toast.error("Registration Failed",{
+                position:"top-center",
+                autoClose:2000
+            })
         }
     };
 

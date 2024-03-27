@@ -6,6 +6,9 @@ import Logo from '../assets/Logo.png'
 import Image from "./Image"
 import { FaFacebookF,FaInstagram   } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
 
 
@@ -31,6 +34,19 @@ const Footer = () => {
     {text:'Shipping'},
     {text:'Secure Payments'},
   ]
+  const [getAllCategory, setGetAllCategory] = useState([]);
+    const AllCategory = async () => {
+      try {
+          const response = await axios.get("http://localhost:8080/api/v1/category/get-category");
+          setGetAllCategory(response.data.category);
+      } catch (error) {
+          console.log(error);
+      }
+  };
+  useEffect(()=>{
+    AllCategory()
+  },[])
+  
   return (
     <section className="bg-[#F5F5F3]">
       <div className="w-container mx-auto flex justify-between pt-14 pb-16">
@@ -53,9 +69,9 @@ const Footer = () => {
         <ul>
           <li className="text-[#262626] font-DM font-bold text-base leading-6 mb-4 uppercase">SHOP</li>
           {
-            shoparr.map((item)=>(
+            getAllCategory.slice(0,5).map((item)=>(
               <li className="mb-[6px]">
-                <Link to='#' className="text-[#6D6D6D] text-sm font-DM leading-4 capitalize">{item.text}</Link>
+                <Link to='#' className="text-[#6D6D6D] text-sm font-DM leading-4 capitalize">{item.name}</Link>
               </li>
             ))
           }

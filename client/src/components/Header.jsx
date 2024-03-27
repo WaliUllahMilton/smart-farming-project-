@@ -60,7 +60,7 @@ const Header = () => {
             </div>
             <div className="flex gap-x-10 items-center">
                     
-                    <div className="relative" onClick={() => navigate('/cart')}>
+                    <div className="relative" onClick={() => auth.token? (navigate("/cart")):navigate("/login") }>
                         <FaShoppingCart />
                     </div>
                     <div className="flex gap-x-1 relative" ref={userref}>

@@ -5,6 +5,7 @@ import { FaGreaterThan } from "react-icons/fa6";
 import { Link, useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import { useAuth } from "../../../context/Auth";
+import { toast } from "react-toastify";
 // import { token } from "morgan";
 
 const Index = () => {
@@ -31,12 +32,15 @@ const Index = () => {
                 user:res.data.user,
                 token:res.data.token 
             })
-            
-            console.log(data)
-            console.log(user)
-            console.log(email)
-            console.log(password)
+            toast.success("Login Successfully",{
+                position:"top-center",
+                autoClose:2000
+            })
         } catch (error) {
+            toast.error("Login Failed",{
+                position:"top-center",
+                autoClose:2000
+            })
             console.log(error)
         }
     }

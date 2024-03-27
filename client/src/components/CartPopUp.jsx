@@ -2,15 +2,17 @@ import React from 'react';
 import { ImCross } from "react-icons/im";
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/Cart';
+import { useAuth } from '../context/Auth';
 // import { Toast } from 'react-toastify/dist/components';
 
 const CartPopUp = () => {
   const [cart, setCart] = useCart();
-  console.log(cart);
+  // console.log(cart);
+  const {auth,setAuth}=useAuth()
 
   return (
     <section className='absolute right-0 border mt-4'>
-      {cart.slice(0,3).map((cartItem) => (
+      {cart.map((cartItem) => (
         <div key={cartItem.id} className='w-[360px] border h-[120px] p-[20px] bg-[#F5F5F3] flex gap-x-[20px]  items-center justify-between'>
           <div className='w-20 h-20 bg-[#D8D8D8]'></div>
           <div>
