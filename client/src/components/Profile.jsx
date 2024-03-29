@@ -18,16 +18,6 @@ const Profile = () => {
   })
   
  }
-// const handleUserProfile = async (userID) => {
-//   try {
-//     // const response = await axios.get(`/api/v1/auth/user/${userID}`);
-//     // const userData = response.data; // Extracting data from the response
-//     // Now you can do something with userData
-//     console.log(userID)
-//   } catch (error) {
-//     console.error("Error fetching user profile:", error);
-//   }
-// };
 
   return (
     <>

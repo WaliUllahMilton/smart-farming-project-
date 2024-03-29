@@ -332,14 +332,16 @@ export const getUserProfile = async (req, res) => {
     try {
       // Query the database to fetch all users
       const users = await userModel.find();
-  
+      const seller = await sellerModel.findOne();
+      users.push(seller)
       // Send the retrieved data back as a response
-      res.json(users);
+      res.json({ users});
     } catch (error) {
       // Handle errors
       res.status(500).json({ message: error.message });
     }
   }
+  
 
 
  
@@ -352,32 +354,37 @@ export const getUserProfile = async (req, res) => {
 
         // User existing check
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
+            // If user not found, attempt to delete seller
+            try {
+                const seller = await sellerModel.findById(userId);
+                if (!seller) {
+                    return res.status(404).json({ message: "Seller not found" });
+                }
 
-        // Role check: if role is not Customer, delete seller
-        if (user.role !== "Customer") {
-            // Assuming sellerModel is correctly imported and defined
-            const deleteSeller = await sellerModel.findByIdAndDelete(userId);
-            if (!deleteSeller) {
-                return res.status(404).json({ message: "Seller not found" });
+                const deletedSeller = await sellerModel.findByIdAndDelete(userId);
+                if (!deletedSeller) {
+                    return res.status(404).json({ message: "Failed to delete seller" });
+                }
+                return res.status(200).json({ message: "Seller deleted successfully", deletedSeller });
+            } catch (sellerError) {
+                console.error("Error deleting seller:", sellerError);
+                return res.status(500).json({ message: "Internal Server Error" });
             }
-            return res.status(200).json({ message: "Seller deleted successfully", deletedSeller });
         }
 
-        // Delete user
+        // If user exists, delete user
         const deletedUser = await userModel.findByIdAndDelete(userId);
         if (!deletedUser) {
-            console.log(req.params)
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "Failed to delete user" });
         }
         return res.status(200).json({ message: "User deleted successfully", deletedUser });
     } catch (error) {
         console.error("Error deleting user:", error);
-        console.log(req.params)
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
+
 export const adminLoginController = async (req, res) => {
     try {
         const { name, password } = req.body;

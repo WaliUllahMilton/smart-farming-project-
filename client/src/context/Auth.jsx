@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { createContext, useState, useContext, useEffect } from 'react';
 
-// Create separate contexts for auth and SellerAuth
 const AuthContext = createContext();
 const SellerAuthContext = createContext();
 
@@ -10,12 +9,6 @@ const AuthProvider = ({ children }) => {
         user: null,
         token: "",
         _id: ""
-    });
-
-    const [sellerAuth, setSellerAuth] = useState({
-        user: null,
-        token: "",
-        _id:""
     });
 
     useEffect(() => {
@@ -55,6 +48,20 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    return (
+        <AuthContext.Provider value={{ auth, setAuth }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+const SellerAuthProvider = ({ children }) => {
+    const [sellerAuth, setSellerAuth] = useState({
+        user: null,
+        token: "",
+        _id:""
+    });
+
     useEffect(() => {
         const data = localStorage.getItem('sellerAuth');
         if (data) {
@@ -72,15 +79,12 @@ const AuthProvider = ({ children }) => {
     }, [sellerAuth]);
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
-            <SellerAuthContext.Provider value={{ sellerAuth, setSellerAuth }}>
-                {children}
-            </SellerAuthContext.Provider>
-        </AuthContext.Provider>
+        <SellerAuthContext.Provider value={{ sellerAuth, setSellerAuth }}>
+            {children}
+        </SellerAuthContext.Provider>
     );
 };
 
-// Custom hooks for AuthContext
 const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
@@ -89,7 +93,6 @@ const useAuth = () => {
     return context;
 };
 
-// Custom hooks for SellerAuthContext
 const useSellerAuth = () => {
     const context = useContext(SellerAuthContext);
     if (!context) {
@@ -98,4 +101,4 @@ const useSellerAuth = () => {
     return context;
 };
 
-export { useAuth, useSellerAuth, AuthProvider };
+export { useAuth, useSellerAuth, AuthProvider, SellerAuthProvider, axios as AxiosInstance };

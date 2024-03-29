@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import Image from './Image'
 import Logo from '../assets/Logo.png'
@@ -15,6 +16,9 @@ const Header = () => {
     const [userToggleBtn, setUserToggleBtn] = useState(false);
     const navigate = useNavigate();
     const {auth,setAuth}=useAuth()
+    const handlecart = ()=>{
+        auth.token? (navigate("/cart")):navigate("/login")
+    }
     useEffect(() => {
         document.body.addEventListener("click", (e) => {
             if (userref.current.contains(e.target)) {
@@ -60,7 +64,7 @@ const Header = () => {
             </div>
             <div className="flex gap-x-10 items-center">
                     
-                    <div className="relative" onClick={() => auth.token? (navigate("/cart")):navigate("/login") }>
+                    <div className="relative" onClick={() =>handlecart() }>
                         <FaShoppingCart />
                     </div>
                     <div className="flex gap-x-1 relative" ref={userref}>

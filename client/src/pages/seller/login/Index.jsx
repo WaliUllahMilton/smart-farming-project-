@@ -13,7 +13,7 @@ const Index = () => {
     const [email,setEmail]= useState();
  
     const [password,setPassword]=useState();
-    const {auth,setAuth}=useSellerAuth();
+    const {sellerAuth,setSellerAuth}=useSellerAuth();
     console.log(email)
     console.log(password)
     const handleSubmit =async(e)=>{
@@ -26,8 +26,8 @@ const Index = () => {
             localStorage.setItem('sellerAuth',JSON.stringify(res.data))
             // localStorage.setItem('token',token)
             setUser(user)
-            setAuth({
-                ...auth,
+            setSellerAuth({
+                ...sellerAuth,
                 user:res.data.user,
                 token:res.data.token 
             })
